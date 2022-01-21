@@ -1,6 +1,6 @@
 const {program} = require('commander');
 const {prompt} = require('inquirer');
-const { addTask } = require ('./controllers/task.controllers')
+const { addTask, listTask } = require ('./controllers/task.controllers')
 
 //Se da la version y una descripcion al CLI
 program.version('0.0.1').description("a command line tool for managing task");
@@ -22,5 +22,7 @@ program.command('save').action(async ()=>{
     ])
     addTask(answers);
 });
+
+program.command('list').action(()=>listTask());
 
 program.parse(process.argv);
