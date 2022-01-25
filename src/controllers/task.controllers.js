@@ -11,26 +11,36 @@ const addTask = async (task) => {
 };
 
 //list tasks in mongofb
-const listTask = async () =>{
+const listTask = async () => {
   const tasks = await Task.find().lean();
-  console.table(tasks.map(task => ({
-    _id: task._id.toString(),
-    title: task.title,
-    description: task.description,
-  })));
+  console.table(
+    tasks.map((task) => ({
+      _id: task._id.toString(),
+      title: task.title,
+      description: task.description,
+    }))
+  );
   await connection.close();
   process.exit(0);
-}
+};
+
+//actualizar por id
+const updateTask = async (_id, newTask) => {
+  await Task.updateOne({ _id }, newTask);
+  console.log("Task updated");
+  await connection.close();
+};
 
 //delete task in mongodb
 const removeTask = async (_id) => {
   await Task.findByIdAndDelete(_id);
-  console.log('Task Delete');
+  console.log("Task Delete");
   await connection.close();
-}
+};
 
 module.exports = {
   addTask,
   listTask,
-  removeTask
+  removeTask,
+  updateTask
 };
