@@ -1,5 +1,6 @@
 const Task = require("../models/Task");
 const { connection } = require("../db");
+const { remove } = require("../models/Task");
 
 //Add task to mongo
 const addTask = async (task) => {
@@ -21,7 +22,15 @@ const listTask = async () =>{
   process.exit(0);
 }
 
+//delete task in mongodb
+const removeTask = async (_id) => {
+  await Task.findByIdAndDelete(_id);
+  console.log('Task Delete');
+  await connection.close();
+}
+
 module.exports = {
   addTask,
-  listTask
+  listTask,
+  removeTask
 };
