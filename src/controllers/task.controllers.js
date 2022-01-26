@@ -10,6 +10,28 @@ const addTask = async (task) => {
   await connection.close();
 };
 
+const findTask = async (text) => {
+  const search = new RegExp(text, "i")
+
+  const tasks = await Task.find({
+    $or: [{title: search}, {description: search}]
+  })
+
+  if (tasks.length === 0){
+    console.log("No Task found");
+    await connection.close();
+    process.exit(0);
+  }
+
+  console.table({
+    id: tasks[0]._id.toString(),
+    title: tasks[0].title,
+    description: tasks[0].description, 
+  });
+  await connection.close();
+  process.exit(0);
+}
+
 //list tasks in mongofb
 const listTask = async () => {
   const tasks = await Task.find().lean();
@@ -42,5 +64,6 @@ module.exports = {
   addTask,
   listTask,
   removeTask,
-  updateTask
+  updateTask,
+  findTask
 };

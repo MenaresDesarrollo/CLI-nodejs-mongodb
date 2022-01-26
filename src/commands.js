@@ -5,6 +5,7 @@ const {
   listTask,
   removeTask,
   updateTask,
+  findTask
 } = require("./controllers/task.controllers");
 
 //Se da la version y una descripcion al CLI
@@ -54,5 +55,10 @@ program
     const answers = await prompt(taskQuestions);
     await updateTask(_id, answers);
   });
+
+  program
+  .command("find <task>")
+  .alias("f")
+  .action((text)=>findTask(text));
 
 program.parse(process.argv);
